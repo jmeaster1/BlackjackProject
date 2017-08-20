@@ -1,6 +1,6 @@
 # Blackjack Project 
 
-# Jimmy Easter 08/18/2017
+## Jimmy Easter 08/18/2017
 
 OVERVIEW:
 
