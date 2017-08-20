@@ -1,11 +1,11 @@
 # Blackjack Project 
 
-## Jimmy Easter 08/18/2017
+# Jimmy Easter 08/18/2017
 
-###Overview
+##Overview
 This project is a command-line blackjack simulator
 
-###Objectives:
+##Objectives:
 
 Use classes to create a functional command line blackjack game.
 
@@ -20,4 +20,3 @@ Use collection types to organize and manage data.
 Use conditionals to create game logic.
 
 
-Make a link to the rules of blackjack
