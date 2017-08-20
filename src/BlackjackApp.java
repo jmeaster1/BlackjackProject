@@ -5,34 +5,58 @@ import java.util.Scanner;
 public class BlackjackApp {
 
 	Scanner kb = new Scanner(System.in);
-
+	
 	Player p1 = new Player();
 	Player dealer = new Player();
 	Deck cardDeck = new Deck();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		BlackjackApp app = new BlackjackApp();
+		app.gameIntro();
 		do {
-		app.run();
-		}while(app.keepPlaying());
+			app.run();
+		} while (app.keepPlaying());
 
+	}
+
+	public void gameIntro() throws InterruptedException {
+		System.out.println("           BLACKJACK SIMULATOR VERSION 1.0           ");
+		for (int i = 0; i < 11; i++) {
+			System.out.print('\u2660');
+			Thread.sleep(50);
+			System.out.print('\u2764');
+			Thread.sleep(50);
+			System.out.print('\u2663');
+			Thread.sleep(50);
+			System.out.print('\u2666');
+			Thread.sleep(50);
+		}
+		Thread.sleep(1000);
+		System.out.print("\n\nPlease enter your name: ");
+		String name = kb.next();
+		System.out.println("Welcome, " + name + ". Let's play some blackjack!\n");
+		Thread.sleep(800);
+		
 	}
 
 	public void run() {
 		initializeDeck();
 		cardDeck.shuffleDeck();
-		// for (Card cardsInDeck : cardDeck.getDeck()) {
-		// System.out.println(cardsInDeck);
-		// }
 		cardDeck.dealCard();
-		
+
 		p1.getHand().addCard(cardDeck.dealCard());
 		p1.getHand().addCard(cardDeck.dealCard());
+		System.out.println();
 
 		printPlayerHand();
 
 		System.out.println("Player 1 current total: " + sumCalcPlayer() + "\n");
 		checkBJ();
+		try {
+			Thread.sleep(600);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		cardDeck.dealCard();
 		dealer.getHand().addCard(cardDeck.dealCard());
@@ -48,16 +72,17 @@ public class BlackjackApp {
 			hsChoice = kb.next();
 			System.out.println();
 
-			if (hsChoice.equalsIgnoreCase("H")) { // ??????????
+			if (hsChoice.equalsIgnoreCase("H")) {
 				cardDeck.dealCard();
 				p1.getHand().addCard(cardDeck.dealCard());
 				printPlayerHand();
+				checkBJ();
 
-				System.out.println("Player 1 current total: " + sumCalcPlayer() + "\n");
-				if(sumCalcPlayer()>21) {
+				System.out.println("Your current total: " + sumCalcPlayer() + "\n");
+				if (sumCalcPlayer() > 21) {
 					break;
 				}
-//				checkWin();// ???
+
 			} else if (hsChoice.equalsIgnoreCase("S")) {
 				System.out.println("Your total is: " + sumCalcPlayer() + "\n");
 
@@ -65,21 +90,19 @@ public class BlackjackApp {
 			if (!hsChoice.equalsIgnoreCase("S") && (!hsChoice.equalsIgnoreCase("H"))) {
 				System.out.println("INVALID ENTRY: Please try again. ");
 			}
-		}while (!hsChoice.equalsIgnoreCase("S"));
-		
+		} while (!hsChoice.equalsIgnoreCase("S"));
 
 		while (sumCalcDealer() <= 16) {
 			dealer.getHand().addCard(cardDeck.dealCard());
 		}
-		
 
 		printDealerHand();
 		System.out.println("Dealer current total: " + sumCalcDealer() + "\n");
 		checkWin();
-		
+
 		p1.getHand().resetHand();
 		dealer.getHand().resetHand();
-		if(cardDeck.getDeck().size()<10) {
+		if (cardDeck.getDeck().size() < 10) {
 			initializeDeck();
 		}
 
@@ -131,9 +154,9 @@ public class BlackjackApp {
 			sumPlayer = sumPlayer + cardsList.getCardRank().getValue();
 		}
 
-		for(Card c : p1.getHand().getHand()) {//------------------------fix aces
-			if(c.getCardRank().equals(Rank.ACE) && sumPlayer >21) {
-				sumPlayer = sumPlayer -10;
+		for (Card c : p1.getHand().getHand()) {
+			if (c.getCardRank().equals(Rank.ACE) && sumPlayer > 21) {
+				sumPlayer = sumPlayer - 10;
 			}
 		}
 		return sumPlayer;
@@ -145,18 +168,17 @@ public class BlackjackApp {
 		for (Card cardsList : dealer.getHand().getHand()) {
 			sumDealer = sumDealer + cardsList.getCardRank().getValue();
 		}
-		
 
-		for(Card c : dealer.getHand().getHand()) {//------------------------fix aces
-			if(c.getCardRank().equals(Rank.ACE) && sumDealer >21) {
-				sumDealer = sumDealer -10;
+		for (Card c : dealer.getHand().getHand()) {
+			if (c.getCardRank().equals(Rank.ACE) && sumDealer > 21) {
+				sumDealer = sumDealer - 10;
 			}
 		}
 		return sumDealer;
 	}
 
 	public void printPlayerHand() {
-		System.out.println("Player Hand: ");
+		System.out.println("Your hand: ");
 		for (Card c : p1.getHand().getHand()) {
 			System.out.println(c);
 		}
@@ -169,14 +191,13 @@ public class BlackjackApp {
 			System.out.println(c);
 		}
 	}
-	
+
 	public boolean keepPlaying() {
 		System.out.println("Do you want to keep playing?");
 		String input = kb.next();
-		if(input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
+		if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
