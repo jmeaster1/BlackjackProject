@@ -30,6 +30,10 @@ public class Hand {
 	public void addCard(Card card) {
 		cards.add(card);
 	}
+	
+	public void resetHand() {
+		this.cards = new ArrayList<Card>();
+	}
 
 	public Hand getCardsInHand() {
 		return null;
