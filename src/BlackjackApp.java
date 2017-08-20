@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class BlackjackApp {
 
 	Scanner kb = new Scanner(System.in);
-	
+
 	Player p1 = new Player();
 	Player dealer = new Player();
 	Deck cardDeck = new Deck();
@@ -36,7 +36,7 @@ public class BlackjackApp {
 		String name = kb.next();
 		System.out.println("Welcome, " + name + ". Let's play some blackjack!\n");
 		Thread.sleep(800);
-		
+
 	}
 
 	public void run() {
@@ -62,8 +62,7 @@ public class BlackjackApp {
 		dealer.getHand().addCard(cardDeck.dealCard());
 		dealer.getHand().addCard(cardDeck.dealCard());
 
-		printDealerHand();
-		System.out.println("Dealer current total: " + sumCalcDealer() + "\n");
+		printDealerHand("ONE");
 		checkBJ();
 
 		String hsChoice;
@@ -96,8 +95,7 @@ public class BlackjackApp {
 			dealer.getHand().addCard(cardDeck.dealCard());
 		}
 
-		printDealerHand();
-		System.out.println("Dealer current total: " + sumCalcDealer() + "\n");
+		printDealerHand("ALL");
 		checkWin();
 
 		p1.getHand().resetHand();
@@ -184,11 +182,19 @@ public class BlackjackApp {
 		}
 	}
 
-	public void printDealerHand() {
+	public void printDealerHand(String printAmount) {
 
-		System.out.println("Dealer Hand: ");
-		for (Card c : dealer.getHand().getHand()) {
-			System.out.println(c);
+		if (printAmount.equals("ONE")) {
+			System.err.println("DOWN CARD HIDDEN!");
+			System.out.println(dealer.getHand().getHand().get(0));
+			int dealerVal = dealer.getHand().getHand().get(0).getCardRank().getValue();
+			System.out.println("Dealer current total: " + dealerVal + "\n");
+		} else if (printAmount.equals("ALL")) {
+			System.out.println("Dealer Hand: ");
+			for (Card c : dealer.getHand().getHand()) {
+				System.out.println(c);
+			}
+			System.out.println("Dealer current total: " + sumCalcDealer() + "\n");
 		}
 	}
 
