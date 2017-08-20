@@ -10,6 +10,7 @@ public class BlackjackApp {
 	Player dealer = new Player();
 	Deck cardDeck = new Deck();
 
+
 	public static void main(String[] args) throws InterruptedException {
 		BlackjackApp app = new BlackjackApp();
 		app.gameIntro();
@@ -17,6 +18,41 @@ public class BlackjackApp {
 			app.run();
 		} while (app.keepPlaying());
 
+	}
+
+	public double Payout() {
+		
+		
+		p1.setWallet(p1.getWallet());///////////////////////////////////////
+		if (sumCalcPlayer() == 21) {
+			System.out.println("You now have $" + (p1.getWallet() + 15) + " in your bankroll.");
+			p1.setWallet( p1.getWallet() + 15);
+			return p1.getWallet();
+		} else if (sumCalcDealer() == 21) {
+			System.out.println("You now have $" + (p1.getWallet() - 10) + " in your bankroll.");
+			p1.setWallet( p1.getWallet() - 10);
+			return p1.getWallet();
+		} else if (sumCalcDealer() > 21) {
+			System.out.println("You now have $" + (p1.getWallet() + 10)+ " in your bankroll.");
+			p1.setWallet( p1.getWallet() + 10);
+		} else if (sumCalcPlayer() > 21) {
+			System.out.println("You now have $" + (p1.getWallet() - 10) + " in your bankroll.");
+			p1.setWallet( p1.getWallet() - 10);
+			return p1.getWallet();
+		} else if (sumCalcPlayer() > sumCalcDealer()) {
+			System.out.println("You now have $" + (p1.getWallet() + 10) + " in your bankroll.");
+			p1.setWallet( p1.getWallet() + 10);
+			return p1.getWallet();
+		} else if (sumCalcPlayer() < sumCalcDealer()) {
+			System.out.println("You now have $" + (p1.getWallet() - 10) + " in your bankroll.");
+			p1.setWallet( p1.getWallet() - 10);
+			return p1.getWallet();
+		}
+		else {
+			System.out.println("You have $" + p1.getWallet() + " in your bankroll.");
+			return p1.getWallet();
+		}
+		return p1.getWallet();
 	}
 
 	public void gameIntro() throws InterruptedException {
@@ -35,7 +71,10 @@ public class BlackjackApp {
 		System.out.print("\n\nPlease enter your name: ");
 		String name = kb.next();
 		System.out.println("Welcome, " + name + ". Let's play some blackjack!\n");
+		System.out.println("You'll start with $100.00 in your bankroll.");
+		System.out.println("You'll be wagering $10.00 per hand");
 		Thread.sleep(800);
+		p1.setWallet(100.00);
 
 	}
 
@@ -109,8 +148,10 @@ public class BlackjackApp {
 	public void checkBJ() {
 		if (sumCalcDealer() == 21) {
 			System.out.println("\nDealer has BLACKJACK. You lose!\n");
+		
 		} else if (sumCalcPlayer() == 21) {
 			System.out.println("\nBLACKJACK! Winner, winner, chicken dinner!\n");
+			
 		}
 	}
 
@@ -118,14 +159,19 @@ public class BlackjackApp {
 		if (sumCalcDealer() > 21) {
 			System.out.println("\nThe dealer has BUSTED!");
 			System.out.println("Congratulations, you've won the hand!\n");
+			Payout();
 		} else if (sumCalcPlayer() > 21) {
 			System.out.println("\nYou have BUSTED! Better luck next hand!\n");
+			Payout();
 		} else if (sumCalcDealer() == sumCalcPlayer()) {
 			System.out.println("The hand is a PUSH.");
+			Payout();
 		} else if (sumCalcDealer() < sumCalcPlayer()) {
-			System.out.println("\nCongratulations! Player 1 wins the hand.\n");
+			System.out.println("\nCongratulations! You've won the hand.\n");
+			Payout();
 		} else if (sumCalcPlayer() < sumCalcDealer()) {
 			System.out.println("\nToo bad! The dealer has won the hand.\n");
+			Payout();
 		}
 
 	}
