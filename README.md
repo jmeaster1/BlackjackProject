@@ -2,7 +2,8 @@
 
 # Jimmy Easter 08/18/2017
 
-##Overview
+##Overview:
+
 This project is a command-line blackjack simulator
 
 ##Objectives:
